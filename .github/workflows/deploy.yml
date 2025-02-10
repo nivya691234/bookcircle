@@ -1,0 +1,35 @@
+name: Deploy Spring Boot App to Azure
+
+on:
+  push:
+    branches:
+      - main  # Change this to your deployment branch
+
+  workflow_dispatch:  # Allows manual trigger from Actions tab
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'  # Update if using Java 23
+
+    - name: Build Spring Boot Application
+      run: mvn clean package -DskipTests
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PASSWORD }}
+        package: target/*.jar
