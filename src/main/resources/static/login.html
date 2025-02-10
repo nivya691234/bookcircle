@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dheereshagrwal/colored-icons@1.7.5/src/app/ci.min.css" />
+    <title>Signup Page</title>
+    <style>
+            * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f2f5;
+    }
+
+    .container {
+        position: relative;
+        width: 768px;
+        height: 480px;
+        background: #fff;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    .form-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transition: all 0.6s ease-in-out;
+    }
+
+    .sign-in-container {
+        left: 0;
+        width: 50%;
+        z-index: 2;
+    }
+
+    .sign-up-container {
+        left: 0;
+        width: 50%;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .container.right-panel-active .sign-in-container {
+        transform: translateX(100%);
+    }
+
+    .container.right-panel-active .sign-up-container {
+        transform: translateX(100%);
+        opacity: 1;
+        z-index: 5;
+    }
+
+    form {
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 0 50px;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    h1 {
+        font-weight: bold;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    input {
+        background: #eee;
+        border: none;
+        padding: 12px 15px;
+        margin: 8px 0;
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    button {
+        border-radius: 20px;
+        border: 1px solid #ff4b2b;
+        background: #ff4b2b;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px 45px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 80ms ease-in;
+        cursor: pointer;
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    .overlay-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 100;
+    }
+
+    .container.right-panel-active .overlay-container {
+        transform: translateX(-100%);
+    }
+
+    .overlay {
+        background: #ff416c;
+        background: url(/images/ice-cream.jpeg), linear-gradient(to right, #ff4b2b, #ff416c);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0 0;
+        color: #fff;
+        position: relative;
+        left: -100%;
+        height: 100%;
+        width: 200%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .container.right-panel-active .overlay {
+        transform: translateX(50%);
+    }
+
+    .overlay-panel {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 40px;
+        height: 100%;
+        width: 50%;
+        text-align: center;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .overlay-right {
+        right: 0;
+        transform: translateX(0);
+    }
+
+    .overlay-left {
+        transform: translateX(-20%);
+    }
+
+    .container.right-panel-active .overlay-left {
+        transform: translateX(0);
+    }
+
+    .container.right-panel-active .overlay-right {
+        transform: translateX(20%);
+    }
+    #forgotPassword {
+        text-decoration: none;
+        color: inherit;
+    }
+        #message {
+            margin: 10px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form id="signupForm" action="/api/users/signup" method="post">
+                <h1>Create Account</h1>
+                <input type="text" placeholder="Username" id="signupUsername" name="username" required/>
+                <input type="email" placeholder="Email" id="signupEmail" name="email" required/>
+                <input type="password" placeholder="Password" id="signupPassword" name="password" required/>
+                <button type="submit">Register</button>
+                <div id = "signUpMessage"></div>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form  id="loginForm" action="/api/users/login" method="post">
+                <h1>Sign In</h1>
+                <input type="text" placeholder="Email or Username" id="loginUsernameOrEmail" name="usernameOrEmail" required/>
+                <input type="password" placeholder="Password" id="loginPassword" name="password" required/>
+                <button  type="submit">Sign In</button>
+                <a href="#" id="forgotPassword">Forgot Password?</a>
+                    <div id = "loginMessage"></div>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us <br>please login with your personal info</p>
+                    <button class="ghost" id="signIn">Login</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button class="ghost" id="signUp">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+
+        //Prevent the signup form from submitting normally and handle it with JavaScript
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            //Get form data
+            const formData = new FormData(this);
+
+            //Send form data to the server using Fetch API
+            fetch(this.action, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('signUpMessage').innerText = 'Signup successful!';
+                    document.getElementById('signUpMessage').style.color = "green";
+
+                } else {
+                   document.getElementById('signUpMessage').innerText = 'Signup failed.';
+                   document.getElementById('signUpMessage').style.color = "red";
+                }
+                         container.classList.remove('right-panel-active');
+            })
+            .catch(error => {
+                document.getElementById('signUpMessage').innerText = 'Signup failed.';
+                document.getElementById('signUpMessage').style.color = "red";
+            });
+        });
+                document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            //Get form data
+            const formData = new FormData(this);
+
+            //Send form data to the server using Fetch API
+            fetch(this.action, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('loginMessage').innerText = 'Login successful!';
+                    document.getElementById('loginMessage').style.color = "green";
+
+                    window.location.href = 'index.html'; //Redirect on success
+
+                } else {
+                   document.getElementById('loginMessage').innerText = 'Login failed.';
+                   document.getElementById('loginMessage').style.color = "red";
+                }
+            })
+            .catch(error => {
+                document.getElementById('loginMessage').innerText = 'Login failed.';
+                document.getElementById('loginMessage').style.color = "red";
+            });
+        });
+    </script>
+</body>
+</html>
